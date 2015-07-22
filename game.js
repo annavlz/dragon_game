@@ -6,125 +6,96 @@ window.addEventListener('keydown', function(e) {
     
     switch (e.keyCode) {
     	case 37: playerX -= 20; //left
-    			 document.getElementById("player").style.left = playerX+"px";
-				 dragonX = random(1,50)*20;
-				 dragonY = random(1,30)*20;
-    			 document.getElementById("dragon").style.left = dragonX+"px";
-    			 document.getElementById("dragon").style.top = dragonY+"px";
-    			 coinGather();
+    		move();
     	break;
 
     	case 38: playerY -= 20; //up
-    			 document.getElementById("player").style.top = playerY+"px";
-				 dragonX = random(1,50)*20;
-				 dragonY = random(1,30)*20;
-    			 document.getElementById("dragon").style.left = dragonX+"px";
-    			 document.getElementById("dragon").style.top = dragonY+"px";
-				 coinGather();
+    		move();
     	break;
 
-    	case 39: playerX += 20; //right
-    			 document.getElementById("player").style.left = playerX+"px";    			     			     			 
-    			 dragonX = random(1,50)*20;
-				 dragonY = random(1,30)*20;
-    			 document.getElementById("dragon").style.left = dragonX+"px";
-    			 document.getElementById("dragon").style.top = dragonY+"px";
-    			 coinGather();
+    	case 39: playerX += 20; //right    			     			     			 
+    		move();
     	break;
 
-    	case 40: playerY += 20;  //down
-    			 document.getElementById("player").style.top = playerY+"px";    			     			     			 
-    			 dragonX = random(1,50)*20;
-				 dragonY = random(1,30)*20;
-    			 document.getElementById("dragon").style.left = dragonX+"px";
-    			 document.getElementById("dragon").style.top = dragonY+"px";
-    			 coinGather();
+    	case 40: playerY += 20;  //down	
+    		move();
     	break;
 
         
     }
 });
 
+var move = function(){
+	movePlayer();
+	moveDragon();
+	gatherCoin();
+};
+
 //player
 
 playerX = 600;
 playerY = 300;
 
+var movePlayer = function(){
+	document.getElementById("player").style.left = playerX+"px";
+	document.getElementById("player").style.top = playerY+"px";
+};
+
 //dragon
+
 dragonX = 300;
 dragonY = 600;
 
+var moveDragon = function(){
+	dragonX = random(1,50)*20;
+	dragonY = random(1,30)*20;
+	document.getElementById("dragon").style.left = dragonX+"px";
+    document.getElementById("dragon").style.top = dragonY+"px";
+
+};
+
 //coins
+function getRandomCoin() {
+	var left = (Math.floor(Math.random() * 50 + 1)) * 20;
+	var top = (Math.floor(Math.random() * 30 + 1)) * 20;
+	return {x: left, y: top};
+}
 
-coin1X = random(1,50)*20;
-coin1Y = random(1,30)*20;
-coin2X = random(1,50)*20;
-coin2Y = random(1,30)*20;
-coin3X = random(1,50)*20;
-coin3Y = random(1,30)*20;
-coin4X = random(1,50)*20;
-coin4Y = random(1,30)*20;
-coin5X = random(1,50)*20;
-coin5Y = random(1,30)*20;
+var coins = [
+	getRandomCoin(),
+	getRandomCoin(),
+	getRandomCoin(),
+	getRandomCoin(),
+	getRandomCoin()
+];
 
-
-document.getElementById('coin1').style.left = coin1X+"px";
-document.getElementById('coin1').style.top = coin1Y+"px";
-
-document.getElementById('coin2').style.left = coin2X+"px";
-document.getElementById('coin2').style.top = coin2Y+"px";
-
-document.getElementById('coin3').style.left = coin3X+"px";
-document.getElementById('coin3').style.top = coin3Y+"px";
-
-document.getElementById('coin4').style.left = coin4X+"px";
-document.getElementById('coin4').style.top = coin4Y+"px";
-
-document.getElementById('coin5').style.left = coin5X+"px";
-document.getElementById('coin5').style.top = coin5Y+"px";
-
-
-
-
-
-
+for (var i = 0; i < coins.length; i++) {
+	var coin = "coin"+i;
+	document.getElementById(coin).style.left = coins[i].x+"px";
+	document.getElementById(coin).style.top = coins[i].y+"px";
+}
 
 
 //coin gathering
-coinCount = 0;
-function coinGather() {
-	if ((coin1X === playerX) && (coin1Y === playerY)) {
-		coinCount++;
-		document.getElementById('coin1').style.left = "0px";
-		document.getElementById('coin1').style.top = "0px";
-		winner();
-	}
-	else if (coin2X === playerX && coin2Y === playerY) {
-		coinCount++;
-		document.getElementById('coin2').style.left = "0px";
-		document.getElementById('coin2').style.top = "0px";
-		winner();
-	}
-	else if (coin3X === playerX && coin3Y === playerY) {
-		coinCount++;
-		document.getElementById('coin3').style.left = "0px";
-		document.getElementById('coin3').style.top = "0px";
-		winner();
-	}
-	else if (coin4X === playerX && coin4Y === playerY) {
-		coinCount++;
-		document.getElementById('coin4').style.left = "0px";
-		document.getElementById('coin4').style.top = "0px";
-		winner();
-	}
-	else if (coin5X === playerX && coin5Y === playerY) {
-		coinCount++;
-		document.getElementById('coin5').style.left = "0px";
-		document.getElementById('coin5').style.top = "0px";
-		winner();
-	}
-	else {
+function isGathered (coinX, coinY){
+	return (coinX === playerX) && (coinY === playerY);
+}
+var collectCoin = function(coin) {
+	coinCount++;
+	document.getElementById(coin).style.left = "0px";
+	document.getElementById(coin).style.top = "0px";
+};
 
+coinCount = 0;
+function gatherCoin() {
+	for (var i = 0; i < coins.length; i++) {
+		var coinX = coins[i].x;
+		var coinY = coins[i].y;
+
+		if (isGathered(coinX, coinY)) {
+			collectCoin('coin'+i);
+			winner();
+		}
 	}
 }
 
