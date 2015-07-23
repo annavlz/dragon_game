@@ -3,7 +3,7 @@ function random(min, max) {
 }
 //moving
 window.addEventListener('keydown', function(e) {
-    
+
     switch (e.keyCode) {
     	case 37: playerX -= 20; //left
     		move();
@@ -13,15 +13,15 @@ window.addEventListener('keydown', function(e) {
     		move();
     	break;
 
-    	case 39: playerX += 20; //right    			     			     			 
+    	case 39: playerX += 20; //right
     		move();
     	break;
 
-    	case 40: playerY += 20;  //down	
+    	case 40: playerY += 20;  //down
     		move();
     	break;
 
-        
+
     }
 });
 
@@ -29,6 +29,7 @@ var move = function(){
 	movePlayer();
 	moveDragon();
 	gatherCoin();
+  winner();
 };
 
 //player
@@ -39,6 +40,7 @@ playerY = 300;
 var movePlayer = function(){
 	document.getElementById("player").style.left = playerX+"px";
 	document.getElementById("player").style.top = playerY+"px";
+  console.log(playerX, playerY);
 };
 
 //dragon
@@ -46,12 +48,16 @@ var movePlayer = function(){
 dragonX = 300;
 dragonY = 600;
 
-var moveDragon = function(){
+var moveDragon = function() {
 	dragonX = random(1,50)*20;
 	dragonY = random(1,30)*20;
 	document.getElementById("dragon").style.left = dragonX+"px";
-    document.getElementById("dragon").style.top = dragonY+"px";
+  document.getElementById("dragon").style.top = dragonY+"px";
 
+};
+
+var dragonGetsPlayer = function() {
+  return (dragonX === playerX) && (dragonY === playerY);
 };
 
 //coins
@@ -94,17 +100,17 @@ function gatherCoin() {
 
 		if (isGathered(coinX, coinY)) {
 			collectCoin('coin'+i);
-			winner();
+
 		}
 	}
 }
 
 //winning
 function winner() {
-	if (coinCount === 5) {
+	if (coinCount === coins.length) {
 		alert("YOU WIN!");
 	}
-	if (dragonX === playerX && dragonY === playerY) {
+	if (dragonGetsPlayer()) {
 		alert("YOU LOST!");
 	}
 }
