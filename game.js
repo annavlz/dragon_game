@@ -1,5 +1,10 @@
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function random(dir) {
+  if (dir == "y") {
+    return (Math.floor(Math.random() * 30 + 1)) * 20;
+  }
+  if (dir == "x") {
+    return (Math.floor(Math.random() * 50 + 1)) * 20;
+  }
 }
 //moving
 window.addEventListener('keydown', function(e) {
@@ -40,7 +45,6 @@ playerY = 300;
 var movePlayer = function(){
 	document.getElementById("player").style.left = playerX+"px";
 	document.getElementById("player").style.top = playerY+"px";
-  console.log(playerX, playerY);
 };
 
 //dragon
@@ -49,8 +53,8 @@ dragonX = 300;
 dragonY = 600;
 
 var moveDragon = function() {
-	dragonX = random(1,50)*20;
-	dragonY = random(1,30)*20;
+	dragonX = random("x");
+	dragonY = random("y");
 	document.getElementById("dragon").style.left = dragonX+"px";
   document.getElementById("dragon").style.top = dragonY+"px";
 
@@ -62,8 +66,8 @@ var dragonGetsPlayer = function() {
 
 //coins
 function getRandomCoin() {
-	var left = (Math.floor(Math.random() * 50 + 1)) * 20;
-	var top = (Math.floor(Math.random() * 30 + 1)) * 20;
+	var left = random("x");
+	var top = random("y");
 	return {x: left, y: top};
 }
 
