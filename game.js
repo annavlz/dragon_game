@@ -1,3 +1,6 @@
+//random creates x and y coordinates with a step of 20 for a 600x1000px space
+//to get vertical coordinate use "y" as a parameter, for horizontal - "x"
+
 function random(dir) {
   if (dir == "y") {
     return (Math.floor(Math.random() * 30 + 1)) * 20;
@@ -30,7 +33,7 @@ window.addEventListener('keydown', function(e) {
     }
 });
 
-var move = function(){
+var move = function() {
 	movePlayer();
 	moveDragon();
 	gatherCoin();
@@ -42,7 +45,7 @@ var move = function(){
 playerX = 600;
 playerY = 300;
 
-var movePlayer = function(){
+var movePlayer = function() {
 	document.getElementById("player").style.left = playerX+"px";
 	document.getElementById("player").style.top = playerY+"px";
 };
@@ -65,19 +68,21 @@ var dragonGetsPlayer = function() {
 };
 
 //coins
-function getRandomCoin() {
+function getRandomCoin(i) {
 	var left = random("x");
 	var top = random("y");
+  document.write('<img src=img/gold-coin.jpg id="coin'+i+'" style="position:absolute; top:0px; left:0px;">');
 	return {x: left, y: top};
 }
+function createCoins(num) {
+  array = [];
+  for(var i = 0; i < num; i++) {
+    array.push(getRandomCoin(i));
+  }
+  return array;
+}
+var coins = createCoins(3);
 
-var coins = [
-	getRandomCoin(),
-	getRandomCoin(),
-	getRandomCoin(),
-	getRandomCoin(),
-	getRandomCoin()
-];
 
 for (var i = 0; i < coins.length; i++) {
 	var coin = "coin"+i;
@@ -118,4 +123,5 @@ function winner() {
 		alert("YOU LOST!");
 	}
 }
+
 
