@@ -71,17 +71,26 @@ var dragonGetsPlayer = function() {
 function getRandomCoin(i) {
 	var left = random("x");
 	var top = random("y");
-  document.write('<img src=img/gold-coin.jpg id="coin'+i+'" style="position:absolute; top:0px; left:0px;">');
-	return {x: left, y: top};
+  var html = '<img src=img/gold-coin.jpg id="coin'+i+'" style="position:absolute; top:'+top+'px; left:'+left+'px;">';
+	return {x: left, y: top, image: html};
 }
+
 function createCoins(num) {
-  array = [];
+  var array = [];
   for(var i = 0; i < num; i++) {
     array.push(getRandomCoin(i));
   }
   return array;
 }
-var coins = createCoins(3);
+function drawCoins(coins) {
+  var images = "";
+  for(var i = 0; i < coins.length; i++) {
+    images += coins[i].image;
+  }
+  document.getElementById("coins").innerHTML = images;
+}
+var coins = createCoins(5);
+drawCoins(coins);
 
 
 for (var i = 0; i < coins.length; i++) {
